@@ -64,6 +64,13 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
         internalMint();
     }
 
+      // Withdraw function
+    function withdraw(address _addr) external onlyOwner {
+        // Get the balance
+        uint256 balance = address(this).balance;
+        payable(_addr).transfer(balance);
+    }
+
       // Cleaning up our code
 
     function internalMint() internal {
