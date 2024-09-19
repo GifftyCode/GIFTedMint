@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     uint256 private _nextTokenId;
+    uint256 maxSupply = 1;
 
     constructor(address initialOwner)
         ERC721("GIFTedMint", "GFT")
@@ -26,10 +27,14 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     function unpause() public onlyOwner {
         _unpause();
     }
+    // Add payment
+    // Add limiting of supply
+    function publicMint() public payable {
+        require(msg.value == 0.01 ether, 'Not enough funds');
+        require(totalSupply() < maxSupply, 'We are sold out');
 
-    function safeMint(address to) public onlyOwner {
         uint256 tokenId = _nextTokenId++;
-        _safeMint(to, tokenId);
+        _safeMint(msg.sender, tokenId);
     }
 
     // The following functions are overrides required by Solidity.
