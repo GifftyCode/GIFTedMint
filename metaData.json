@@ -1,7 +1,8 @@
 {
-    "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.", 
-    "external_url": "https://pinata.cloud/", 
-    "image": "ipfs://QmdkWxrdGR4xKDUobn3UpoWr7tHkabNU38AGThHy4AMn4s", 
-    "name": "GiftedNFT"
+    "name": "GiftedNFT",
+    "description": "A special collectible from the GIFT collection", 
+    "image": "ipfs//QmdkWxrdGR4xKDUobn3UpoWr7tHkabNU38AGThHy4AMn4s",
+    "external_url": "https://pinata.cloud/"
+    
  
   }
