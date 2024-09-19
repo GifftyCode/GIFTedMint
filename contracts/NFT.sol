@@ -48,10 +48,10 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
 
        function allowMint() public payable  {
         require(allowListMintOpen, 'Allow list Mint is closed');
+        require(allowList[msg.sender], 'You are not on the allow list');
         require(msg.value == 0.001 ether, 'Not enough funds');
-        require(totalSupply() < maxSupply, 'We are sold out');
-        uint256 tokenId = _nextTokenId++;
-        _safeMint(msg.sender, tokenId);
+
+        internalMint();
     }
 
 
@@ -60,8 +60,14 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     function publicMint() public payable {
         require(publicMintOpen, 'Public Mint is closed');
         require(msg.value == 0.01 ether, 'Not enough funds');
-        require(totalSupply() < maxSupply, 'We are sold out');
+        
+        internalMint();
+    }
 
+      // Cleaning up our code
+
+    function internalMint() internal {
+         require(totalSupply() < maxSupply, 'We are sold out');
         uint256 tokenId = _nextTokenId++;
         _safeMint(msg.sender, tokenId);
     }
