@@ -9,11 +9,14 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     uint256 private _nextTokenId;
-    uint256 maxSupply = 1;
+    uint256 maxSupply = 1000;
 
 
     bool public publicMintOpen = false;
     bool public allowListMintOpen = false;
+
+    mapping(address => bool) public allowList;
+
 
     constructor(address initialOwner)
         ERC721("GIFTedMint", "GFT")
@@ -61,6 +64,14 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
 
         uint256 tokenId = _nextTokenId++;
         _safeMint(msg.sender, tokenId);
+    }
+
+      // Populate the allow list
+    function setAllowList(address[] calldata addresses) external onlyOwner {
+        for (uint256 i = 0; i < addresses.length; i++) 
+        {
+            allowList[addresses[i]] = true;
+        }
     }
 
     // The following functions are overrides required by Solidity.
