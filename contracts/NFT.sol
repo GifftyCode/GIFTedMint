@@ -18,13 +18,13 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     mapping(address => bool) public allowList;
 
 
-    constructor(address initialOwner)
+    constructor()
         ERC721("GIFTedMint", "GFT")
-        Ownable(initialOwner)
+        Ownable(msg.sender)
     {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://QmdkWxrdGR4xKDUobn3UpoWr7tHkabNU38AGThHy4AMn4s";
+        return "ipfs://QmXdrziGPZ9TFLNT6UQab5p3oVVC4VdTLv5Xu9nZ6c8kQS";
     }
 
     function pause() public onlyOwner {
