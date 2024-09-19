@@ -11,6 +11,10 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     uint256 private _nextTokenId;
     uint256 maxSupply = 1;
 
+
+    bool public publicMintOpen = false;
+    bool public allowListMintOpen = false;
+
     constructor(address initialOwner)
         ERC721("GIFTedMint", "GFT")
         Ownable(initialOwner)
@@ -27,9 +31,31 @@ contract GIFTedMint is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     function unpause() public onlyOwner {
         _unpause();
     }
+
+       // Modify the mint windows
+    function editMint(
+        bool _allowListMintOpen,
+        bool _publicMintOpen
+    ) external onlyOwner{
+        allowListMintOpen = _allowListMintOpen;
+        publicMintOpen = _publicMintOpen;
+        
+    }
+
+
+       function allowMint() public payable  {
+        require(allowListMintOpen, 'Allow list Mint is closed');
+        require(msg.value == 0.001 ether, 'Not enough funds');
+        require(totalSupply() < maxSupply, 'We are sold out');
+        uint256 tokenId = _nextTokenId++;
+        _safeMint(msg.sender, tokenId);
+    }
+
+
     // Add payment
     // Add limiting of supply
     function publicMint() public payable {
+        require(publicMintOpen, 'Public Mint is closed');
         require(msg.value == 0.01 ether, 'Not enough funds');
         require(totalSupply() < maxSupply, 'We are sold out');
 
